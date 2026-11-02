@@ -8,5 +8,11 @@ namespace music2026.Services
 
         private int nextId = 1;
 
+
+        public IReadOnlyList<Song> GetAllSongs()
+        {
+            return songs.AsReadOnly();
+        }
+
     }
 }

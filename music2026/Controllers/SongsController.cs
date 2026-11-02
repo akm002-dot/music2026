@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using music2026.Interfaces;
+using music2026.Models;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -18,9 +19,12 @@ namespace music2026.Controllers
 
         // GET: api/<SongsController>
         [HttpGet]
-        public IEnumerable<string> Get()
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public ActionResult<IEnumerable<Song>> Get()
         {
-            return new string[] { "value1", "value2" };
+            IReadOnlyList<Song> songs = _songsRepo.GetAllSongs();
+            return Ok(songs);
         }
 
         // GET api/<SongsController>/5
