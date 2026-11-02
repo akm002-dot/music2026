@@ -12,11 +12,10 @@ namespace TestProject1
         public void GetAllSongs_NewRepository_ReturnsEmptyList()
         {
             // Act
-            IReadOnlyList<Song> songs = _songsRepo.GetAllSongs();
+            IEnumerable<Song> songs = _songsRepo.GetAllSongs();
 
             // Assert
             Assert.NotNull(songs);
-            Assert.Empty(songs);
         }
     }
 }

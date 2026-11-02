@@ -23,8 +23,7 @@ namespace music2026.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public ActionResult<IEnumerable<Song>> Get()
         {
-            IReadOnlyList<Song> songs = _songsRepo.GetAllSongs();
-            return Ok(songs);
+            return StatusCode(StatusCodes.Status200OK, _songsRepo.GetAllSongs());
         }
 
         // GET api/<SongsController>/5
