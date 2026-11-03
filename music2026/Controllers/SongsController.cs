@@ -18,7 +18,6 @@ namespace music2026.Controllers
         }
 
         // GET: api/<SongsController>
-        //
         [HttpGet]
 
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -34,10 +33,19 @@ namespace music2026.Controllers
             return "value";
         }
 
+
         // POST api/<SongsController>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost]
-        public void Post([FromBody] string value)
+        public ActionResult<IEnumerable<Song>> SearchSongs(string property, string text)
         {
+            if (string.IsNullOrEmpty(property) || string.IsNullOrEmpty(text))
+            {
+                return BadRequest("Property and text parameters are required.");
+            }
+            var searchedSongs = _songsRepo.SearchSongs(property, text);
+            return StatusCode(StatusCodes.Status200OK, searchedSongs);
         }
 
         // PUT api/<SongsController>/5

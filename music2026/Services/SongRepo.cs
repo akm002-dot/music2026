@@ -32,6 +32,9 @@ namespace music2026.Services
 
         public IEnumerable<Song> SearchSongs(string property, string text)
         {
+
+            
+
             if (property == "Title")
             {
                 return songs.Where(s => s.Title != null && s.Title.Contains(text, StringComparison.OrdinalIgnoreCase));

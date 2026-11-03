@@ -1,0 +1,54 @@
+using Xunit;
+
+namespace music2026.Tests;
+
+public class SongRepoTests
+{
+	[Fact]
+	public void SearchByTitle_ReturnsOnlySongsWithMatchingNonNullTitle()
+	{
+		var songs = new List<Song>
+		{
+			new() { Title = "Bohemian Rhapsody" },
+			new() { Title = "Another Song" },
+			new() { Title = null }
+		};
+
+		var repo = new SongRepo(songs);
+
+		var result = repo.Search("Title", "bohemian").ToList();
+
+		Assert.Single(result);
+		Assert.Equal("Bohemian Rhapsody", result[0].Title);
+	}
+
+	[Fact]
+	public void SearchByTitle_IsCaseInsensitive()
+	{
+		var songs = new List<Song>
+		{
+			new() { Title = "Bohemian Rhapsody" }
+		};
+
+		var repo = new SongRepo(songs);
+
+		var result = repo.Search("Title", "BOHEMIAN").ToList();
+
+		Assert.Single(result);
+	}
+
+	[Fact]
+	public void SearchByTitle_DoesNotReturnSongWithNullTitle()
+	{
+		var songs = new List<Song>
+		{
+			new() { Title = null }
+		};
+
+		var repo = new SongRepo(songs);
+
+		var result = repo.Search("Title", "song").ToList();
+
+		Assert.Empty(result);
+	}
+}
