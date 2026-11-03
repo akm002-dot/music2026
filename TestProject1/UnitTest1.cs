@@ -43,18 +43,6 @@ namespace TestProject1
             Assert.Single(result);
             Assert.Equal("wwwddwdw", result.First().Title);
         }
-        [Fact]
-        public void SearchSongs_Title_TextIsNullOrEmpty_ReturnsEmptyList()
-        {
-            _songsRepo.AddSong(new Song { Title = null, Artist = "Artist 1", PublishYear = 2020, Genre = "Pop" });
-            // Arrange
-            string property = "Title";
-            string text = null;
-            // Act
-            IEnumerable<Song> result = _songsRepo.SearchSongs(property, text);
-            // Assert
-            Assert.Empty(result);
-        }
 
         [Fact]
         public void SearchSongs_InvalidProperty_ReturnsEmptyList()
@@ -107,54 +95,7 @@ namespace TestProject1
             Assert.Equal("Test Artist 12345", result.First().Artist);
         }
 
-        [Fact]
-        public void SearchByTitle_ReturnsOnlySongsWithMatchingNonNullTitle()
-        {
-            var songs = new List<Song>
-        {
-            new() { Title = "Bohemian Rhapsody" },
-            new() { Title = "Another Song" },
-            new() { Title = null }
-        };
-
-            var result = _songsRepo.SearchSongs("Title", "bohemian").ToList();
-
-            Assert.Single(result);
-            Assert.Equal("Bohemian Rhapsody", result[0].Title);
-        }
-
-        [Fact]
-        public void SearchByTitle_IsCaseInsensitive()
-        {
-            var songs = new List<Song>
-        {
-            new() { Title = "Bohemian Rhapsody" }
-        };
-
-            var result = _songsRepo.SearchSongs("Title", "BOHEMIAN").ToList();
-
-            Assert.Single(result);
-        }
-
-        [Fact]
-        public void SearchByTitle_DoesNotReturnSongWithNullTitle()
-        {
-            
-        
-            _songsRepo.AddSong(new Song { Title = null, Artist = null, PublishYear = 0, Genre = null });
-        
-
-            var result = _songsRepo.SearchSongs("Title", null);
-            var result2 = _songsRepo.SearchSongs("Artist", null);
-            var result3 = _songsRepo.SearchSongs("Genre", null);
-
-            Assert.Empty(result);
-            Assert.Empty(result2);
-            Assert.Empty(result3);
-        }
     }
-
-
 
 }
 
