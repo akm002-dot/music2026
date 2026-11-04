@@ -23,6 +23,17 @@ namespace music2026.Services
             return songs;
         }
 
+        public Song GetById(int id)
+        {
+
+            Song? song = songs.FirstOrDefault(s => s.Id == id);
+            if (song == null)
+            {
+                throw new KeyNotFoundException($"Song with ID {id} not found.");
+            }
+            return song;
+        }
+
         public Song AddSong(Song s)
         {
             s.Id = nextId++;
@@ -69,6 +80,19 @@ namespace music2026.Services
         public int CountSongs()
         {
             return songs.Count;
+        }
+
+        public Song UpdateById(int id, Song data)
+        {
+            Song song = GetById(id);
+            if (song != null)
+            {
+                song.Artist = data.Artist;
+                song.Title = data.Title;
+                song.PublishYear = data.PublishYear;
+                song.Genre = data.Genre;
+            }
+            return data;
         }
     }
 }

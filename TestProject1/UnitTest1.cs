@@ -43,7 +43,26 @@ namespace TestProject1
             Assert.Single(result);
             Assert.Equal("wwwddwdw", result.First().Title);
         }
-
+        [Fact]
+        public void SearchSongs_TitleProperty_ReturnsEmptyList()
+        {
+            //Arrange
+            _songsRepo.AddSong(new Song
+            {
+                Title = null,
+                Artist = null,
+                PublishYear = 1928,
+                Genre = null
+            });
+            //ACT
+            IEnumerable<Song> result = _songsRepo.SearchSongs("Title", "SomeText");
+            IEnumerable<Song> result2 = _songsRepo.SearchSongs("Artist", "SomeText");
+            IEnumerable<Song> result3 = _songsRepo.SearchSongs("Genre", "SomeText");
+            //Assert
+            Assert.Empty(result);
+            Assert.Empty(result2);
+            Assert.Empty(result3);
+        }
         [Fact]
         public void SearchSongs_InvalidProperty_ReturnsEmptyList()
         {
@@ -119,6 +138,34 @@ namespace TestProject1
             Assert.Null(deletedSong);
         }
 
+        [Fact] 
+        public void GetById_ExistingSong_ReturnsSong()
+        {
+            // Arrange
+
+            // Act
+            Song retrievedSong = _songsRepo.GetById(1);
+            // Assert
+            Assert.NotNull(retrievedSong);
+            Assert.Equal(1, retrievedSong.Id);
+        }
+
+        [Fact]
+        public void GetById_NonExistentSong_ThrowsKeyNotFoundException()
+        {
+            // Arrange
+            int nonExistentId = -1;
+            // Act & Assert
+            Assert.Throws<KeyNotFoundException>(() => _songsRepo.GetById(nonExistentId));
+        }
+        [Fact]
+        public void GetById_NullId_ThrowsKeyNotFoundException()
+        {
+            // Arrange
+            int nullId = 0; // Assuming 0 is not a valid ID in your repository
+            // Act & Assert
+            Assert.Throws<KeyNotFoundException>(() => _songsRepo.GetById(nullId));
+        }
     }
 
 }

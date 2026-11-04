@@ -28,9 +28,15 @@ namespace music2026.Controllers
 
         // GET api/<SongsController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public ActionResult<Song> Get(int id)
         {
-            return "value";
+            Song song = _songsRepo.GetById(id);
+            if (song == null)
+            {
+                return NotFound("Song not found with ID: " + id);
+            }
+            return StatusCode(StatusCodes.Status200OK, song);
         }
 
         //Post api/<SongsController>
@@ -63,8 +69,17 @@ namespace music2026.Controllers
 
         // PUT api/<SongsController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public ActionResult<Song> Put(int id, [FromBody] Song value)
         {
+            Song song = _songsRepo.GetById(id);
+            if (song == null)
+            {
+                return NotFound("No such song, id: " + id);
+            }
+            _songsRepo.UpdateById(id, value);
+            return StatusCode(StatusCodes.Status200OK, song);
         }
 
         // DELETE api/<SongsController>/5
@@ -78,7 +93,9 @@ namespace music2026.Controllers
             {
                 return NotFound("Song not found with ID: " + id);
             }
-            return Ok(removedSong);
+            return StatusCode(StatusCodes.Status200OK, removedSong);
         }
+
+
     }
 }

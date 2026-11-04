@@ -7,11 +7,15 @@ namespace music2026.Interfaces
     public interface ISongsRepo
     {
         IEnumerable<Song> GetAllSongs();
+        Song GetById(int id);
         Song AddSong(Song s);
         IEnumerable<Song> SearchSongs(string property, string text);
 
         Song DeleteSong(int id);
 
         int CountSongs();
+
+        Song UpdateById(int id, Song data);
+
     }
 }
