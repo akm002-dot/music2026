@@ -10,5 +10,8 @@ namespace music2026.Interfaces
         Song AddSong(Song s);
         IEnumerable<Song> SearchSongs(string property, string text);
 
+        Song DeleteSong(int id);
+
+        int CountSongs();
     }
 }

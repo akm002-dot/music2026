@@ -33,11 +33,24 @@ namespace music2026.Controllers
             return "value";
         }
 
+        //Post api/<SongsController>
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        public ActionResult<Song>Post([FromBody] Song song)
+        {
+            if (song == null)
+            {
+                return BadRequest("Song cannot be null.");
+            }
+            Song addedSong = _songsRepo.AddSong(song);
+            return StatusCode(StatusCodes.Status201Created, addedSong);
+        }  
 
         // POST api/<SongsController>
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [HttpPost]
+        [HttpGet("search")]
         public ActionResult<IEnumerable<Song>> SearchSongs(string property, string text)
         {
             if (string.IsNullOrEmpty(property) || string.IsNullOrEmpty(text))
@@ -56,8 +69,16 @@ namespace music2026.Controllers
 
         // DELETE api/<SongsController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public ActionResult<Song> Delete(int id)
         {
+            Song? removedSong = _songsRepo.DeleteSong(id);
+            if (removedSong == null)
+            {
+                return NotFound("Song not found with ID: " + id);
+            }
+            return Ok(removedSong);
         }
     }
 }

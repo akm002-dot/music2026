@@ -95,6 +95,30 @@ namespace TestProject1
             Assert.Equal("Test Artist 12345", result.First().Artist);
         }
 
+        [Fact]
+        public void DeleteSongBeforeAfterCountCheck()
+        {
+            // Arrange
+            Song songToDelete = _songsRepo.AddSong(new Song { Title = "Song to Delete", Artist = "Artist", PublishYear = 2023, Genre = "Genre" });
+            int initialCount = _songsRepo.CountSongs();
+            // Act
+            Song deletedSong = _songsRepo.DeleteSong(songToDelete.Id);
+            int finalCount = _songsRepo.CountSongs();
+            // Assert
+            Assert.NotNull(deletedSong);
+            Assert.Equal(initialCount - 1, finalCount);
+        }
+        [Fact]
+        public void DeleteSongIsNull()
+        {
+            // Arrange
+            int nonExistentId = -1;
+            // Act
+            Song deletedSong = _songsRepo.DeleteSong(nonExistentId);
+            // Assert
+            Assert.Null(deletedSong);
+        }
+
     }
 
 }

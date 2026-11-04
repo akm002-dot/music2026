@@ -56,5 +56,19 @@ namespace music2026.Services
                 return new List<Song>();
             }
         }
+        public Song DeleteSong(int id)
+        {
+            Song? song = songs.FirstOrDefault(s => s.Id == id);
+            if (song != null)
+            {
+                songs.Remove(song);
+            }
+            return song;
+        }
+
+        public int CountSongs()
+        {
+            return songs.Count;
+        }
     }
 }
